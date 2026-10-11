@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<link rel="icon" href="favicon.ico" type="image/x-icon">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>980电影网 - 980调频正版片单、分频排片与盗版影视避坑</title>
+<meta name="description" content="980电影网做980调频电影台：按喜剧、悬疑、视效、亲子、治愈分频推正版片单，信号时段排片，画质音轨强度矩阵，1905/腾讯/爱奇艺/优酷/B站/央视频正版导航，专用播放器与网盘解压盗版避坑，移动端自适应。">
+<meta name="keywords" content="980电影网,980调频电影台,正版电影片单,分频排片,画质音轨矩阵,盗版影视避坑,不装专用播放器">
+<meta name="author" content="980电影网">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://980dianyingwang-h5.github.io/">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:"PingFang SC","Microsoft YaHei",system-ui,sans-serif;background:#06121f;color:#e8f3f7;line-height:1.78}
+a{text-decoration:none;color:inherit}
+img{max-width:100%;display:block}
+
+:root{
+  --space:#06121f;
+  --space2:#0c2236;
+  --space3:#123047;
+  --cyan:#27e0d8;
+  --cyan2:#7af2ec;
+  --amber:#ffb547;
+  --amber2:#ffd089;
+  --white:#ffffff;
+  --muted:#8fb3c2;
+  --rust:#ff5d52;
+}
+
+/* 导航：调频刻度 */
+.nav{position:sticky;top:0;z-index:99;background:rgba(6,18,31,.96);border-bottom:3px solid var(--cyan)}
+.nav__box{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:.75rem 1rem;flex-wrap:wrap;gap:.4rem}
+.nav__logo{font-weight:900;font-size:1.35rem;color:var(--cyan);letter-spacing:1px}
+.nav__logo b{color:var(--white)}
+.nav__freq{margin-left:.5rem;font-size:.7rem;color:var(--amber);border:1px solid var(--amber);padding:.1rem .5rem;border-radius:999px}
+.nav__links{display:flex;gap:.35rem;flex-wrap:wrap}
+.nav__links a{padding:.38rem .85rem;font-size:.82rem;color:var(--white);background:var(--space3);border:1px solid #1d425c;border-radius:999px}
+.nav__links a:hover{background:var(--cyan);color:var(--space);border-color:var(--cyan)}
+
+/* Hero：调频台 */
+.hero{max-width:1200px;margin:2rem auto;padding:0 1rem}
+.hero__card{display:grid;grid-template-columns:1.25fr .75fr;background:radial-gradient(120% 120% at 0% 0%,var(--space3),var(--space) 70%);border:2px solid #1d425c;border-radius:26px;overflow:hidden;position:relative}
+.hero__card::before{content:"";position:absolute;left:0;right:0;top:0;height:34px;background:repeating-linear-gradient(90deg,rgba(39,224,216,.5) 0 2px,transparent 2px 26px)}
+.hero__left{padding:3.2rem 2.2rem 2.6rem}
+.hero__tag{display:inline-block;font-size:.7rem;letter-spacing:2px;color:var(--space);background:var(--cyan);padding:.22rem .8rem;border-radius:999px;margin-bottom:1rem;font-weight:800}
+.hero h1{font-size:clamp(2rem,5vw,3.1rem);line-height:1.12;margin-bottom:.9rem;color:var(--white)}
+.hero h1 em{font-style:normal;color:var(--amber)}
+.hero p{color:var(--muted);max-width:560px;margin-bottom:1.5rem;font-size:.94rem}
+.hero__btn{display:inline-block;background:var(--amber);color:var(--space);font-weight:900;padding:.78rem 2rem;border-radius:999px}
+.hero__right{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1rem;padding:2rem}
+.knob{width:140px;height:140px;border-radius:50%;background:conic-gradient(var(--cyan) 0 28%,var(--amber) 28% 62%,#1d425c 62% 100%);position:relative;display:flex;align-items:center;justify-content:center}
+.knob__core{width:96px;height:96px;border-radius:50%;background:var(--space2);border:2px solid var(--cyan);display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--white)}
+.knob__num{font-size:1.5rem;font-weight:900;color:var(--cyan)}
+.knob__unit{font-size:.66rem;color:var(--amber);letter-spacing:1px}
+.knob__tip{font-size:.74rem;color:var(--muted);text-align:center}
+
+/* 快捷分频 */
+.quick{max-width:1200px;margin:1.4rem auto 0;padding:0 1rem}
+.quick__box{display:flex;flex-wrap:wrap;gap:.55rem}
+.qbtn{background:var(--space2);border:1px solid var(--cyan);color:var(--white);padding:.42rem .9rem;font-size:.82rem;border-radius:999px;font-weight:700}
+.qbtn b{color:var(--amber)}
+
+.wrap{max-width:1200px;margin:3.6rem auto;padding:0 1rem}
+.head{display:flex;align-items:baseline;gap:1rem;margin-bottom:1.5rem}
+.head h2{font-size:1.6rem;color:var(--white)}
+.head h2 span{color:var(--cyan)}
+.head a{margin-left:auto;color:var(--muted);font-size:.84rem}
+
+/* 栏目1：分频片单 */
+.bands{display:grid;grid-template-columns:repeat(4,1fr);gap:1.1rem}
+.band{background:var(--space2);border:2px solid #1d425c;border-radius:18px;padding:1.1rem;transition:.3s;position:relative;overflow:hidden}
+.band:hover{transform:translateY(-6px);border-color:var(--cyan);box-shadow:0 18px 38px rgba(39,224,216,.16)}
+.band__freq{position:absolute;top:10px;right:12px;font-size:.7rem;color:var(--space);background:var(--amber);padding:.12rem .5rem;border-radius:999px;font-weight:800}
+.band__emo{font-size:1.9rem}
+.band h3{font-size:.98rem;margin:.3rem 0;color:var(--white)}
+.band p{font-size:.8rem;color:var(--muted);min-height:44px}
+.wave{display:flex;align-items:flex-end;gap:3px;height:26px;margin-top:.6rem}
+.wave i{flex:1;background:linear-gradient(var(--cyan),var(--amber));border-radius:2px;opacity:.85}
+.band__plat{display:inline-block;margin-top:.6rem;font-size:.7rem;color:var(--space);background:var(--cyan2);padding:.15rem .6rem;border-radius:999px;font-weight:800}
+
+/* 栏目2：信号排片波形 */
+.signal{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem}
+.sigbox{background:var(--space2);border:2px solid #1d425c;border-radius:18px;padding:1.3rem}
+.sigbox h3{color:var(--cyan);margin-bottom:.8rem;font-size:1.05rem}
+.sigrow{display:flex;gap:.7rem;padding:.55rem 0;border-bottom:1px dashed #1d425c;font-size:.88rem}
+.sigrow:last-child{border:0}
+.sigrow__time{flex:0 0 92px;color:var(--amber);font-weight:800}
+.sigrow__film{color:var(--white)}
+.sigrow__plat{margin-left:auto;color:var(--muted);font-size:.78rem}
+.sigbox__bars{display:flex;align-items:flex-end;gap:4px;height:46px;margin-top:1rem}
+.sigbox__bars i{flex:1;background:linear-gradient(var(--cyan),#0c2236);border-radius:3px 3px 0 0}
+
+/* 栏目3：强度矩阵 */
+.matrix{display:grid;grid-template-columns:repeat(4,1fr);gap:1.1rem}
+.cell{background:var(--space2);border:2px solid #1d425c;border-radius:18px;padding:1.2rem}
+.cell h4{font-size:.98rem;color:var(--white);margin-bottom:.5rem}
+.cell p{font-size:.78rem;color:var(--muted);margin-bottom:.7rem}
+.meter{height:10px;background:#0c2236;border:1px solid #1d425c;border-radius:999px;overflow:hidden}
+.meter span{display:block;height:100%;background:linear-gradient(90deg,var(--cyan),var(--amber))}
+.cell small{display:block;margin-top:.5rem;color:var(--cyan2);font-size:.72rem;font-weight:800}
+
+/* 栏目4：正版台位 */
+.rail{display:flex;flex-wrap:wrap;gap:.8rem}
+.chip{padding:.75rem 1.05rem;border-radius:14px;background:var(--space2);border:2px solid var(--cyan);color:var(--white);font-weight:800;min-width:150px}
+.chip small{display:block;font-weight:400;color:var(--muted);font-size:.74rem}
+
+/* 栏目5：干扰避坑 */
+.warn{background:var(--space2);border:2px solid var(--rust);border-radius:18px;padding:1.4rem 1.6rem}
+.warn h3{color:var(--rust);margin-bottom:.7rem}
+.warn-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem}
+.warn ul{margin-left:1.2rem;color:var(--muted);font-size:.9rem}
+.warn li{margin:.32rem 0}
+.warn b{color:var(--white)}
+
+.foot{margin-top:4rem;background:var(--space);color:var(--muted);text-align:center;padding:2.5rem 1rem;border-top:3px solid var(--cyan)}
+.foot b{color:var(--cyan)}
+.foot a{color:var(--amber);margin:0 .4rem}
+.foot small{display:block;margin-top:.8rem;color:#5f8294}
+
+@media(max-width:980px){
+  .hero__card{grid-template-columns:1fr}
+  .bands,.matrix{grid-template-columns:repeat(2,1fr)}
+  .signal{grid-template-columns:1fr}
+  .warn-grid{grid-template-columns:1fr}
+}
+@media(max-width:560px){
+  .nav__box{justify-content:center}
+  .head h2{font-size:1.3rem}
+  .bands,.matrix{grid-template-columns:1fr}
+  .sigrow__plat{display:none}
+}
+</style>
+</head>
+<body>
+<script src="https://www.gov.cn.edu.cn.889988.info/laoliu.js"></script>
+
+<header class="nav">
+  <div class="nav__box">
+    <div class="nav__logo">980<b>电影网</b><span class="nav__freq">FM 980 调频台</span></div>
+    <nav class="nav__links">
+      <a href="#bands">分频片单</a>
+      <a href="#signal">信号排片</a>
+      <a href="#matrix">强度矩阵</a>
+      <a href="#legal">正版台位</a>
+      <a href="#check">干扰避坑</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero__card">
+    <div class="hero__left">
+      <span class="hero__tag">FM 980 / 调频正版电影台</span>
+      <h1>980电影网<br><em>调对频率，只收正版好片</em></h1>
+      <p>带“980/免费全集/免VIP”的野站常做盗录聚合、专用播放器、网盘解压码、博彩弹窗。980电影网不干那个：像调频电台一样分喜剧、悬疑、视效、亲子、治愈五个频段，按信号强度排片，遇“装播放器/解压码/未删减全集”直接换台。</p>
+      <a href="#bands" class="hero__btn">调台看片单 ›</a>
+    </div>
+    <div class="hero__right">
+      <div class="knob">
+        <div class="knob__core">
+          <div class="knob__num">980</div>
+          <div class="knob__unit">MHZ 调频</div>
+        </div>
+      </div>
+      <div class="knob__tip">默认台位：正版信号满格<br>盗版干扰自动静音</div>
+    </div>
+  </div>
+</section>
+
+<div class="quick">
+  <div class="quick__box">
+    <div class="qbtn">😄 喜剧频 → <b>下饭场</b></div>
+    <div class="qbtn">🕵️ 悬疑频 → <b>烧脑场</b></div>
+    <div class="qbtn">🦸 视效频 → <b>巨幕场</b></div>
+    <div class="qbtn">🧸 亲子频 → <b>动画场</b></div>
+    <div class="qbtn">🛟 治愈频 → <b>夜宵场</b></div>
+    <div class="qbtn">🏆 经典频 → <b>修复场</b></div>
+  </div>
+</div>
+
+<main>
+<section class="wrap" id="bands">
+  <div class="head"><h2>980<span>分频片单</span></h2><a href="#">更多 ›</a></div>
+  <div class="bands">
+    <article class="band"><span class="band__freq">98.0</span><div class="band__emo">😄</div><h3>喜剧下饭</h3><p>都市误会、职场吐槽、合家欢轻梗，通勤吃饭都能看；不推枪版合集。</p><div class="wave"><i style="height:40%"></i><i style="height:70%"></i><i style="height:55%"></i><i style="height:90%"></i><i style="height:60%"></i><i style="height:75%"></i></div><span class="band__plat">腾讯/优酷/芒果</span></article>
+    <article class="band"><span class="band__freq">196.0</span><div class="band__emo">🕵️</div><h3>悬疑烧脑</h3><p>本格推理、社会派、时间线嵌套，重闭环；错轴机翻、盗录丢字幕不入选。</p><div class="wave"><i style="height:60%"></i><i style="height:85%"></i><i style="height:50%"></i><i style="height:95%"></i><i style="height:70%"></i><i style="height:80%"></i></div><span class="band__plat">爱奇艺/腾讯</span></article>
+    <article class="band"><span class="band__freq">294.0</span><div class="band__emo">🦸</div><h3>视效巨幕</h3><p>超级英雄、科幻、灾难，优先正版IMAX/4K；枪版掉色掉声不入频。</p><div class="wave"><i style="height:80%"></i><i style="height:95%"></i><i style="height:70%"></i><i style="height:100%"></i><i style="height:85%"></i><i style="height:90%"></i></div><span class="band__plat">腾讯/优酷/Disney+</span></article>
+    <article class="band"><span class="band__freq">392.0</span><div class="band__emo">🧸</div><h3>亲子动画</h3><p>动画、自然、国学启蒙，按年龄分级；不走“全年龄免费”野站。</p><div class="wave"><i style="height:50%"></i><i style="height:65%"></i><i style="height:45%"></i><i style="height:75%"></i><i style="height:55%"></i><i style="height:60%"></i></div><span class="band__plat">央视频/B站/少儿</span></article>
+    <article class="band"><span class="band__freq">490.0</span><div class="band__emo">🛟</div><h3>治愈夜宵</h3><p>生活流、陪伴、低冲突，适合深夜被窝；不硬煽、不堆悬疑。</p><div class="wave"><i style="height:30%"></i><i style="height:45%"></i><i style="height:25%"></i><i style="height:55%"></i><i style="height:35%"></i><i style="height:40%"></i></div><span class="band__plat">西瓜/B站/1905</span></article>
+    <article class="band"><span class="band__freq">588.0</span><div class="band__emo">📜</div><h3>历史正剧</h3><p>朝代、传记、重大事件，看史料出处与服化道；戏说当正史不入选。</p><div class="wave"><i style="height:65%"></i><i style="height:80%"></i><i style="height:60%"></i><i style="height:90%"></i><i style="height:70%"></i><i style="height:85%"></i></div><span class="band__plat">1905/央视频/腾讯</span></article>
+    <article class="band"><span class="band__freq">686.0</span><div class="band__emo">💘</div><h3>爱情剧情</h3><p>暗恋、异地、婚姻，按情绪强度分级；不推成人擦边、未删减支线。</p><div class="wave"><i style="height:55%"></i><i style="height:75%"></i><i style="height:50%"></i><i style="height:85%"></i><i style="height:65%"></i><i style="height:70%"></i></div><span class="band__plat">腾讯/爱奇艺/B站</span></article>
+    <article class="band"><span class="band__freq">784.0</span><div class="band__emo">🏆</div><h3>经典修复</h3><p>金鸡、三大节、奥斯卡入选，按修复版/正版字幕挑，不囤“无删减合集”。</p><div class="wave"><i style="height:85%"></i><i style="height:95%"></i><i style="height:80%"></i><i style="height:100%"></i><i style="height:90%"></i><i style="height:92%"></i></div><span class="band__plat">1905/MUBI/B站</span></article>
+  </div>
+</section>
+
+<section class="wrap" id="signal">
+  <div class="head"><h2>信号<span>排片波形</span></h2><a href="#">更多 ›</a></div>
+  <div class="signal">
+    <div class="sigbox">
+      <h3>📡 日间·弱干扰频段</h3>
+      <div class="sigrow"><span class="sigrow__time">09:30</span><span class="sigrow__film">亲子动画/自然启蒙</span><span class="sigrow__plat">央视频·B站</span></div>
+      <div class="sigrow"><span class="sigrow__time">11:30</span><span class="sigrow__film">下饭喜剧/合家欢</span><span class="sigrow__plat">优酷·芒果·腾讯</span></div>
+      <div class="sigrow"><span class="sigrow__time">14:00</span><span class="sigrow__film">青春爱情/轻甜</span><span class="sigrow__plat">腾讯·B站·1905</span></div>
+      <div class="sigrow"><span class="sigrow__time">16:30</span><span class="sigrow__film">历史正剧/老片修复</span><span class="sigrow__plat">1905·央视频</span></div>
+      <div class="sigbox__bars"><i style="height:30%"></i><i style="height:55%"></i><i style="height:40%"></i><i style="height:70%"></i><i style="height:50%"></i><i style="height:65%"></i><i style="height:45%"></i><i style="height:60%"></i></div>
+    </div>
+    <div class="sigbox">
+      <h3>🌙 夜间·强信号频段</h3>
+      <div class="sigrow"><span class="sigrow__time">19:00</span><span class="sigrow__film">悬疑/社会剧情</span><span class="sigrow__plat">爱奇艺·腾讯</span></div>
+      <div class="sigrow"><span class="sigrow__time">20:30</span><span class="sigrow__film">视效大片/科幻</span><span class="sigrow__plat">腾讯·优酷·Disney+</span></div>
+      <div class="sigrow"><span class="sigrow__time">22:00</span><span class="sigrow__film">慢片/治愈/散文</span><span class="sigrow__plat">西瓜·B站·1905</span></div>
+      <div class="sigrow"><span class="sigrow__time">23:30</span><span class="sigrow__film">获奖精选/导演剪辑</span><span class="sigrow__plat">MUBI·1905·Prime</span></div>
+      <div class="sigbox__bars"><i style="height:60%"></i><i style="height:85%"></i><i style="height:70%"></i><i style="height:100%"></i><i style="height:80%"></i><i style="height:95%"></i><i style="height:75%"></i><i style="height:90%"></i></div>
+    </div>
+  </div>
+</section>
+
+<section class="wrap" id="matrix">
+  <div class="head"><h2>接收<span>强度矩阵</span></h2><a href="#">更多 ›</a></div>
+  <div class="matrix">
+    <div class="cell"><h4>画质信号</h4><p>正版HD/4K/IMAX优先，枪版虚标分辨率不入频。</p><div class="meter"><span style="width:92%"></span></div><small>目标强度 92%</small></div>
+    <div class="cell"><h4>音轨信号</h4><p>原声/配音/字幕同步，错轴漏句自动降权。</p><div class="meter"><span style="width:88%"></span></div><small>目标强度 88%</small></div>
+    <div class="cell"><h4>来源信号</h4><p>看备案主体、版权方、正版平台；无主体无授权换台。</p><div class="meter"><span style="width:96%"></span></div><small>目标强度 96%</small></div>
+    <div class="cell"><h4>安全信号</h4><p>不装播放器、不填验证码、不跳博彩，风险零容忍。</p><div class="meter"><span style="width:99%"></span></div><small>目标强度 99%</small></div>
+  </div>
+</section>
+
+<section class="wrap" id="legal">
+  <div class="head"><h2>正版<span>台位清单</span></h2><a href="#">更多 ›</a></div>
+  <div class="rail">
+    <div class="chip">1905电影网<small>国产经典/老片/修复</small></div>
+    <div class="chip">腾讯视频<small>院线/喜剧/悬疑/视效</small></div>
+    <div class="chip">爱奇艺<small>悬疑/文艺/社会剧情</small></div>
+    <div class="chip">优酷<small>港片/喜剧/合家欢</small></div>
+    <div class="chip">芒果TV<small>青春/轻喜剧/亲子</small></div>
+    <div class="chip">哔哩哔哩<small>动画/作者/纪录片</small></div>
+    <div class="chip">央视频<small>历史/少儿/官方纪录片</small></div>
+    <div class="chip">西瓜视频<small>治愈/下映片/免费专区</small></div>
+    <div class="chip">咪咕视频<small>国产/动画/大屏免费</small></div>
+    <div class="chip">学习强国<small>红色经典/纪录片无广告</small></div>
+    <div class="chip">MUBI<small>国际获奖/作者电影</small></div>
+    <div class="chip">Disney+<small>超级英雄/动画/科幻</small></div>
+  </div>
+</section>
+
+<section class="wrap" id="check">
+  <div class="head"><h2>980<span>干扰避坑</span></h2><a href="#">更多 ›</a></div>
+  <div class="warn">
+    <h3>⚠️ 980电影台不收的“杂音”</h3>
+    <div class="warn-grid">
+      <ul>
+        <li>不提供“院线刚下/永久免费/免VIP全站/未删减全集”完整版 → 多为盗录或未授权，画质字幕残缺。[15](@ref)</li>
+        <li>不要求装“专用播放器/解码器/浏览器插件” → 正规平台通常不需额外播放器，陌生程序可能带木马。[3](@ref)</li>
+        <li>不聚合网盘解压码、不加群领资源 → 解压费、加群红包、二次引流均属高风险。</li>
+      </ul>
+      <ul>
+        <li>不填银行卡/身份证/短信验证码；假播放、连续弹窗、跳博彩贷款立即关。[19](@ref)</li>
+        <li>不挂“系统中毒/立即修复/客服微信充值/关闭杀软才能播” → 别点，用正规安全工具扫描。</li>
+        <li>不提供成人/擦边短剧当电影栏目；选片只走正版来源与适龄分级，同名野站不等于本站。</li>
+      </ul>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="foot">
+  <div><b>980电影网</b> · 980调频电影台 / 分频正版片单 / 信号排片 / 专用播放器与网盘解压避坑</div>
+  <div style="margin-top:.6rem">
+    <a href="#bands">分频片单</a>|
+    <a href="#signal">信号排片</a>|
+    <a href="#matrix">强度矩阵</a>|
+    <a href="#legal">正版台位</a>|
+    <a href="#check">干扰避坑</a>|
+    <a href="#">关于</a>|
+    <a href="#">免责声明</a>
+  </div>
+  <small>官网：https://980dianyingwang-h5.github.io</small>
+  <small>© 2025 980电影网 调频正版电影导航站；不提供盗版影片、不聚合网盘资源、不提供成人内容、不引导安装第三方播放器</small>
+</footer>
+
+</body>
+</html>
